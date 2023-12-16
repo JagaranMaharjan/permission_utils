@@ -1,39 +1,31 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+## Handled permission for
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+- camera
+- gallery
+- storage
+- contact
+- microphone
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+## Add following permission on android manifest file inside application tag
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+- For Camera:
+    - <uses-permission android:name="android.permission.CAMERA" />
+    - <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
 
-## Features
+- For Photos, Audio, Video:
+    - <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    - <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    - <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- For Storage:
+    - <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+      android:maxSdkVersion="29" />
+    - <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+      android:maxSdkVersion="32" />
+    -
+- For Contact:
+    - <uses-permission android:name="android.permission.READ_CONTACTS" />
+    - <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
-```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+- For Microphone:
+    - <uses-permission android:name="android.permission.RECORD_AUDIO" />
