@@ -4,4 +4,5 @@ enum PermissionFor {
   storage,
   contact,
   microphone,
+  location,
 }

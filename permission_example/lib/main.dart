@@ -118,6 +118,22 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               icon: const Icon(Icons.phone),
             ),
+            IconButton(
+              onPressed: () {
+                PermissionService.requestPermission(
+                  permissionFor: PermissionFor.location,
+                  onGrantedCallback: () {},
+                  onDeniedCallback: () {},
+                  onPermanentlyDeniedCallback:
+                      (Future<bool> Function() openAppSettings) {
+                    openAppSettings();
+                  },
+                  onOthersDeniedCallback:
+                      (Future<bool> Function() openAppSettings) {},
+                );
+              },
+              icon: const Icon(Icons.map),
+            ),
           ],
         ),
       ),

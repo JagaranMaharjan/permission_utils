@@ -34,14 +34,6 @@ class PermissionService {
         permission = Permission.camera;
         break;
 
-      case PermissionFor.gallery:
-        if (osVersion <= 12 && Platform.isAndroid) {
-          permission = Permission.accessMediaLocation;
-        } else {
-          permission = Permission.photos;
-        }
-        break;
-
       case PermissionFor.contact:
         permission = Permission.contacts;
         break;
@@ -50,7 +42,12 @@ class PermissionService {
         permission = Permission.microphone;
         break;
 
+      case PermissionFor.location:
+        permission = Permission.location;
+        break;
+
       case PermissionFor.storage:
+      case PermissionFor.gallery:
       default:
         if (Platform.isAndroid) {
           if (osVersion <= 12) {
