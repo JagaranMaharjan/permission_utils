@@ -52,10 +52,12 @@ class PermissionService {
 
       case PermissionFor.storage:
       default:
-        if (osVersion <= 12 && Platform.isAndroid) {
-          permission = Permission.accessMediaLocation;
-        } else {
-          permission = Permission.storage;
+        if (Platform.isAndroid) {
+          if (osVersion <= 12) {
+            permission = Permission.accessMediaLocation;
+          } else {
+            permission = Permission.photos;
+          }
         }
         break;
     }
