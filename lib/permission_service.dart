@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:permission_utils/constant/enums.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'core/constant/enums.dart';
 
 class PermissionService {
   PermissionService._();
@@ -15,7 +17,7 @@ class PermissionService {
     required void Function() onDeniedCallback,
     required void Function(Future<bool> Function() openAppSettings)
         onPermanentlyDeniedCallback,
-    required void Function(Future<bool> Function() openAppSettings)
+    void Function(Future<bool> Function() openAppSettings)?
         onOthersDeniedCallback,
   }) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -67,30 +69,40 @@ class PermissionService {
       deniedPermissionCount + 1,
     );
 
-    await permission.onDeniedCallback(() async {
-      log("::: $permissionFor permission status: permission denied :::");
-      onDeniedCallback();
-    }).onGrantedCallback(() {
-      sharedPreferences.setInt(
-        permissionFor.toString(),
-        0,
-      );
-      log("::: $permissionFor permission status: permission granted :::");
+    if (await permission.isGranted) {
       onGrantedCallback();
-    }).onPermanentlyDeniedCallback(() {
-      log("::: $permissionFor permission status: permission permanently denied :::");
-      if (deniedPermissionCount >= 2) {
-        onPermanentlyDeniedCallback(openAppSettings);
-      }
-    }).onRestrictedCallback(() {
-      log("::: $permissionFor permission status: permission restricted :::");
-      onOthersDeniedCallback(openAppSettings);
-    }).onLimitedCallback(() {
-      log("::: $permissionFor permission status: permission limited :::");
-      onOthersDeniedCallback(openAppSettings);
-    }).onProvisionalCallback(() {
-      log("::: $permissionFor permission status: permission provisional :::");
-      onOthersDeniedCallback(openAppSettings);
-    }).request();
+    } else {
+      await permission.onDeniedCallback(() async {
+        log("::: $permissionFor permission status: permission denied :::");
+        onDeniedCallback();
+      }).onGrantedCallback(() {
+        sharedPreferences.setInt(
+          permissionFor.toString(),
+          0,
+        );
+        log("::: $permissionFor permission status: permission granted :::");
+        onGrantedCallback();
+      }).onPermanentlyDeniedCallback(() {
+        log("::: $permissionFor permission status: permission permanently denied :::");
+        if (deniedPermissionCount >= 2) {
+          onPermanentlyDeniedCallback(openAppSettings);
+        }
+      }).onRestrictedCallback(() {
+        log("::: $permissionFor permission status: permission restricted :::");
+        if (onOthersDeniedCallback != null) {
+          onOthersDeniedCallback(openAppSettings);
+        }
+      }).onLimitedCallback(() {
+        log("::: $permissionFor permission status: permission limited :::");
+        if (onOthersDeniedCallback != null) {
+          onOthersDeniedCallback(openAppSettings);
+        }
+      }).onProvisionalCallback(() {
+        log("::: $permissionFor permission status: permission provisional :::");
+        if (onOthersDeniedCallback != null) {
+          onOthersDeniedCallback(openAppSettings);
+        }
+      }).request();
+    }
   }
 }

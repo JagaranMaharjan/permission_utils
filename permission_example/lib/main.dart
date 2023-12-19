@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:permission_utils/constant/enums.dart';
+import 'package:permission_utils/core/constant/enums.dart';
 import 'package:permission_utils/permission_service.dart';
 
 void main() {
@@ -39,10 +39,10 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: const <Widget>[
             Text(
               'Select Your Permssion',
             ),
